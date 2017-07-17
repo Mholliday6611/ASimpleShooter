@@ -28,9 +28,9 @@ var bossBulletTimer = 0;
 var bossYdirection = -1;
 var gameOver;
 
-var ACCLERATION =600;
-var DRAG = 400;
-var MAXSPEED = 400;
+var ACCLERATION = 2500;
+var DRAG = 0;
+var MAXSPEED = 2500;
 
 Ass.endless = function(){};
 
@@ -48,6 +48,8 @@ Ass.endless.prototype = {
 		this.physics.enable(player, Phaser.Physics.ARCADE);
 		player.body.maxVelocity.setTo(MAXSPEED, MAXSPEED);
 		player.body.drag.setTo(DRAG, DRAG);
+        player.body.collideWorldBounds = true;
+
 
 		bullets = this.add.group();
 	    bullets.enableBody = true;
@@ -57,15 +59,14 @@ Ass.endless.prototype = {
 	    bullets.setAll('anchor.y', 1);
 	    bullets.setAll('outOfBoundsKill', true);
 	    bullets.setAll('checkWorldBounds', true);
-
-		cursors = this.input.keyboard.createCursorKeys();
-	    fireButton = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 	},
+
+
 	update: function(){
 	starfield.tilePosition.x -=6;
-	
     player.body.acceleration.y = 0;
-    if(this.input.pointer1.isDown){
+
+        if(this.input.pointer1.isDown){
         // Fire Bulet
             if(this.input.pointer1.x>this.world.centerX){      
                 if (this.time.now > bulletTimer){

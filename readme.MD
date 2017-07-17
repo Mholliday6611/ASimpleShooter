@@ -1,6 +1,12 @@
 To-Do 
 
 
-Fix the multi-touch
 
 Fix the movement
+
+
+
+
+COMPLETED
+
+Fixed the movement bug
