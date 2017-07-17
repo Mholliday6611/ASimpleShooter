@@ -73,6 +73,7 @@ Ass.endless.prototype = {
                     var BULLET_SPEED = 400;
                     var BULLET_SPACING = 250;
                     var bullet = bullets.getFirstExists(false);
+                    player.rotation = 1.5708+this.physics.arcade.angleBetween(player, this.input.pointer1)
                     if (bullet)
                     {//  And fire it
                          var bulletOffset = 20 * Math.sin(this.math.degToRad(player.angle));
@@ -98,6 +99,7 @@ Ass.endless.prototype = {
                     var BULLET_SPEED = 400;
                     var BULLET_SPACING = 250;
                     var bullet = bullets.getFirstExists(false);
+                    player.rotation = 1.5708+this.physics.arcade.angleBetween(player, this.input.pointer2);
                     if (bullet)
                     {//  And fire it
                          var bulletOffset = 20 * Math.sin(this.math.degToRad(player.angle));
