@@ -65,39 +65,55 @@ Ass.endless.prototype = {
 	starfield.tilePosition.x -=6;
 	
     player.body.acceleration.y = 0;
+    if(this.input.pointer1.isDown){
+        // Fire Bulet
+            if(this.input.pointer1.x>this.world.centerX){      
+                if (this.time.now > bulletTimer){
+                    var BULLET_SPEED = 400;
+                    var BULLET_SPACING = 250;
+                    var bullet = bullets.getFirstExists(false);
+                    if (bullet)
+                    {//  And fire it
+                         var bulletOffset = 20 * Math.sin(this.math.degToRad(player.angle));
+                        bullet.reset(player.x + bulletOffset, player.y);
+                        bullet.angle = player.angle;
+                        this.physics.arcade.velocityFromAngle(bullet.angle - 90, BULLET_SPEED, bullet.body.velocity);
+                        bullet.body.velocity.x += player.body.velocity.x;
 
-    // Fire Bulet
-    if (player.alive &&(this.input.pointer2.isDown && this.input.pointer2.x > this.world.centerX || this.input.pointer1.isDown && this.input.pointer1.x > this.world.centerX )) {
-    	if (this.time.now > bulletTimer){
-    	var BULLET_SPEED = 400;
-    	var BULLET_SPACING = 250;
-        var bullet = bullets.getFirstExists(false);
-        if (bullet)
-        {//  And fire it
-         var bulletOffset = 20 * Math.sin(this.math.degToRad(player.angle));
-        bullet.reset(player.x + bulletOffset, player.y);
-        bullet.angle = player.angle;
-        this.physics.arcade.velocityFromAngle(bullet.angle - 90, BULLET_SPEED, bullet.body.velocity);
-        bullet.body.velocity.x += player.body.velocity.x;
+                        bulletTimer = this.time.now + BULLET_SPACING;
+                    }
+                }
+            }            
+            else{
+                var minDist = 200;
+                var dist = this.input.pointer1.y - player.y;
+                player.body.velocity.y = MAXSPEED * this.math.clamp(dist/ minDist, -1,1 );
+            }
+    }
+    if(this.input.pointer2.isDown){
+        // Fire Bulet
+            if(this.input.pointer2.x>this.world.centerX){      
+                if (this.time.now > bulletTimer){
+                    var BULLET_SPEED = 400;
+                    var BULLET_SPACING = 250;
+                    var bullet = bullets.getFirstExists(false);
+                    if (bullet)
+                    {//  And fire it
+                         var bulletOffset = 20 * Math.sin(this.math.degToRad(player.angle));
+                        bullet.reset(player.x + bulletOffset, player.y);
+                        bullet.angle = player.angle;
+                        this.physics.arcade.velocityFromAngle(bullet.angle - 90, BULLET_SPEED, bullet.body.velocity);
+                        bullet.body.velocity.x += player.body.velocity.x;
 
-        bulletTimer = this.time.now + BULLET_SPACING;
-    }
-}
-    };
-    // Stop at screen edges
-    if (player.y > this.height + 50){
-        player.y = this.height +50;
-        player.body.acceleration.y = 0;
-    }
-    if (player.y < 50){
-        player.y = 50
-        player.body.acceleration.y = 0;
-    }
-
-    if (this.input.pointer1.isDown && this.input.pointer1.x < this.world.centerX || this.input.pointer2.isDown && this.input.pointer2.x < this.world.centerX)
-    {var minDist = 200;
-        var dist = this.input.y - player.y;
-        player.body.velocity.y = MAXSPEED * this.math.clamp(dist/ minDist, -1,1 );
+                        bulletTimer = this.time.now + BULLET_SPACING;
+                    }
+                }
+            }            
+            else{
+                var minDist = 200;
+                var dist = this.input.pointer2.y - player.y;
+                player.body.velocity.y = MAXSPEED * this.math.clamp(dist/ minDist, -1,1 );
+            }
     }
 }
 }
