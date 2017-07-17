@@ -1,9 +1,9 @@
 var Ass = Ass || {}
-Ass.game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, 'phaser-demo',)
+Ass.game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, '')
 
-Ass.game.state.add('Boot', game.boot);
-Ass.game.state.add('Preload', game.preload);
-Ass.game.state.add('MainMenu', game.mainmenu);
-Ass.game.state.add('endless'. game.endless);
+Ass.game.state.add('Boot', Ass.Boot);
+Ass.game.state.add('Preload', Ass.Preload);
+Ass.game.state.add('MainMenu', Ass.mainmenu);
+Ass.game.state.add('Endless', Ass.endless);
 
-Ass.game.state.start('boot');
+Ass.game.state.start('Boot');
