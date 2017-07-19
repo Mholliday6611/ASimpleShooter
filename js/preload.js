@@ -20,6 +20,8 @@ Ass.Preload.prototype = {
 		 this.load.image('enemy-blue', 'assets/images/enemy-blue.png');
 		 this.load.image('blueEnemyBullet', 'assets/images/enemy-blue-bullet.png');
 		 this.load.spritesheet('explosion', 'assets/images/explode.png', 128,128);
+		 this.load.image('power1', 'assets/png/life.png');
+		 this.load.spritesheet('power', 'assets/images/power.png', 12, 12);
 		 this.load.bitmapFont('spacefont', 'assets/spacefont/spacefont.png', 'assets/spacefont/spacefont.xml');
 		 this.load.image('boss', 'assets/images/boss.png');
 		 this.load.image('deathRay', 'assets/images/death-ray.png');
