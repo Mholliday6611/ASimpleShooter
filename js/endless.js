@@ -86,6 +86,16 @@ Ass.endless.prototype = {
         bulletsTYPE2.setAll('anchor.y', 1);
         bulletsTYPE2.setAll('outOfBoundsKill', true);
         bulletsTYPE2.setAll('checkWorldBounds', true);
+
+        bulletsTYPE3 = this.add.group();
+        bulletsTYPE3.enableBody = true;
+        bulletsTYPE3.physicsBodyType = Phaser.Physics.ARCADE;
+        bulletsTYPE3.createMultiple(30, 'redshot');
+        bulletsTYPE3.setAll('anchor.x', 0.5);
+        bulletsTYPE3.setAll('anchor.y', 1);
+        bulletsTYPE3.setAll('outOfBoundsKill', true);
+        bulletsTYPE3.setAll('checkWorldBounds', true);
+
         // this.launchGreenEnemy();
         //POWERUP LAME 
         collectables = this.add.group();
@@ -107,6 +117,16 @@ Ass.endless.prototype = {
         powerUpTimerSpear.loop(this.rnd.integerInRange(10000, 60000), this.launchPowerUpSpear, this);
         powerUpTimerSpear.start();
 
+        //POWERUP RED
+        collectablesTYPE3 = this.add.group();
+        collectablesTYPE3.enableBody = true;
+        collectablesTYPE3.physicsBodyType = Phaser.Physics.ARCADE;
+
+        powerUpTimerRed = this.time.create(false);
+        powerUpTimerRed.loop(this.rnd.integerInRange(10000, 60000), this.launchPowerUpRed, this);
+        powerUpTimerRed.start();
+
+
         //score
         scoreText = this.add.bitmapText(10,10, 'spacefont', '', 50);
         scoreText.render = function(){
@@ -125,11 +145,34 @@ Ass.endless.prototype = {
 
         if(this.input.pointer1.isDown){
             if(this.input.pointer1.x>this.world.centerX){
+                if(gun[0] == "Red"){
+                        if (this.time.now > bulletTimer){
+                        var BULLET_SPEED = 600;
+                        var BULLET_SPACING = 500;
+                        for (var i = 0; i < 5; i++) {
+                    var bullet = bulletsTYPE3.getFirstExists(false);
+                    player.rotation = 1.5708+this.physics.arcade.angleBetween(player, this.input.pointer1)
+                    if(bullet) {
+                         var bulletOffset = 20 * Math.sin(this.math.degToRad(player.angle));
+                            bullet.reset(player.x + bulletOffset, player.y);
+                            var spreadAngle;
+                            if (i === 0) spreadAngle = -50;
+                            if (i === 1) spreadAngle = -25;
+                            if (i === 2) spreadAngle = 0;
+                            if (i === 3) spreadAngle = 25;
+                            if (i === 3) spreadAngle = 50;
+                            bullet.angle = player.angle + spreadAngle;
+                            this.physics.arcade.velocityFromAngle(bullet.angle - 90, BULLET_SPEED, bullet.body.velocity);
+                            bullet.body.velocity.x += player.body.velocity.x;
+                            bulletTimer = this.time.now + BULLET_SPACING;
+                    }
+                }
+            }
+        }    
                 if(gun[0] == "Spear"){
                         if (this.time.now > bulletTimer){
                         var BULLET_SPEED = 300;
                         var BULLET_SPACING = 760;
-                        for (var i = 0; i < 3; i++) {
                     var bullet = bulletsTYPE2.getFirstExists(false);
                     player.rotation = 1.5708+this.physics.arcade.angleBetween(player, this.input.pointer1)
                     if(bullet) {
@@ -141,8 +184,6 @@ Ass.endless.prototype = {
 
                             bulletTimer = this.time.now + BULLET_SPACING;
                     }
-                    bulletTimer = this.time.now + BULLET_SPACING;
-                }
             }
         }    
                         if(gun[0] == "Lame"){
@@ -194,6 +235,32 @@ Ass.endless.prototype = {
     }
     if(this.input.pointer2.isDown){
             if(this.input.pointer2.x>this.world.centerX){
+                if(gun[0] == "Red"){
+                        if (this.time.now > bulletTimer){
+                        var BULLET_SPEED = 600;
+                        var BULLET_SPACING = 500;
+                        for (var i = 0; i < 5; i++) {
+                    var bullet = bulletsTYPE2.getFirstExists(false);
+                    player.rotation = 1.5708+this.physics.arcade.angleBetween(player, this.input.pointer2)
+                    if(bullet) {
+                         var bulletOffset = 20 * Math.sin(this.math.degToRad(player.angle));
+                            bullet.reset(player.x + bulletOffset, player.y);
+                            var spreadAngle;
+                            if (i === 0) spreadAngle = -50;
+                            if (i === 1) spreadAngle = -25;
+                            if (i === 2) spreadAngle = 0;
+                            if (i === 3) spreadAngle = 25;
+                            if (i === 3) spreadAngle = 50;
+                            bullet.angle = player.angle + spreadAngle;
+                            this.physics.arcade.velocityFromAngle(bullet.angle - 90, BULLET_SPEED, bullet.body.velocity);
+                            bullet.body.velocity.x += player.body.velocity.x;
+
+                            bulletTimer = this.time.now + BULLET_SPACING;
+                    }
+                    bulletTimer = this.time.now + BULLET_SPACING;
+                }
+            }
+        }    
                 if(gun[0] == "Spear"){
                             if (this.time.now > bulletTimer){
                             var BULLET_SPEED = 300;
@@ -264,6 +331,7 @@ Ass.endless.prototype = {
     //overlapping between player and collectables
     this.game.physics.arcade.overlap(player, collectables, this.collect, null, this);
     this.game.physics.arcade.overlap(player, collectablesTYPE2, this.collectTYPE2, null, this);
+    this.game.physics.arcade.overlap(player, collectablesTYPE3, this.collectTYPE3, null, this);
 },
     launchPowerUp: function() {
         console.log("start")
@@ -310,6 +378,29 @@ Ass.endless.prototype = {
 
 
 }
+},
+    launchPowerUpRed: function() {
+        console.log("start")
+        collectablesTYPE3.createMultiple(5, 'power');
+        var powerz = collectablesTYPE3.getFirstExists(false);
+        powerz.tint = 0Xa2d114
+        if (powerz) {
+            powerz.reset(this.world.centerX + this.world.centerX, this.rnd.integerInRange(this.world.centerY-this.world.centerY, this.world.centerY +this.world.centerY));
+            powerz.animations.add('fly', [0, 1, 2, 3], 5, true);
+            powerz.animations.play('fly');
+            powerz.body.velocity.x = -350;
+            (console.log(powerz))
+        
+
+            powerz.update = function(){
+                if (powerz.x < this.world.centerX - this.world.centerX) {
+                    powerz.kill()
+                }
+      }
+      // this.time.events.add(1000, this.launchPowerUp())
+
+
+}
 
  },
     collect: function(player, collectable) {
@@ -338,6 +429,20 @@ Ass.endless.prototype = {
         //remove sprite
         collectable.destroy();
       },
+      collectTYPE3: function(player, collectable) {
+        //play collect sound
+        // this.collectSound.play();
+
+        //update score
+        score += 1;
+        scoreText.render();
+        gun.shift()
+        gun.push("Red")
+
+        //remove sprite
+        collectable.destroy();
+      },
+
 
 
 }

@@ -25,6 +25,7 @@ Ass.Preload.prototype = {
 		 this.load.bitmapFont('spacefont', 'assets/spacefont/spacefont.png', 'assets/spacefont/spacefont.xml');
 		 this.load.image('boss', 'assets/images/boss.png');
 		 this.load.image('deathRay', 'assets/images/death-ray.png');
+		 this.load.image('redshot', 'assets/png/laserRedShot.png');
 	},
 	create: function(){
 		this.state.start('MainMenu');
