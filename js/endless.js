@@ -230,19 +230,19 @@ Ass.endless.prototype = {
     	starfield.tilePosition.x -=6;
         player.body.acceleration.y = 0;
 
-        if(player.health= 4){
+        // if(player.health= 4){
             
-        }
-        if(player.health= 3){
+        // }
+        // if(player.health= 3){
             
-        }
-        if(player.health= 2){
+        // }
+        // if(player.health= 2){
             
-        }
-        if(player.health= 1){
+        // }
+        // if(player.health= 1){
             
-        }
-        else{
+        // }
+        // else{
             
         }
 
