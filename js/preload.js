@@ -13,7 +13,7 @@ Ass.Preload.prototype = {
 		this.load.setPreloadSprite(this.preloadBar);
 
 		//load in assets for game
-		 this.load.image('1','assets/gif/cute.gif');
+		 this.load.image('1','assets/gif/cutegif.gif');
 		 this.load.image('2','assets/gif/cute2.gif');
 		 this.load.image('3','assets/gif/clown.gif');
 		 this.load.image('4','assets/gif/darkestestgif.gif');

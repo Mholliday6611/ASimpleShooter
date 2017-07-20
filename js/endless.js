@@ -44,6 +44,7 @@ Ass.endless.prototype = {
 
 		starfield = this.add.tileSprite(0,0,window.innerWidth, window.innerHeight, 'starfield');
 
+
         // music = this.add.audio('lit');
 
         music = new Phaser.Sound(this, 'lit',1, true);
@@ -184,7 +185,7 @@ Ass.endless.prototype = {
         //BlUE ENEMY TIMER
 
         blueEnemyTimer = this.time.create(false);
-        blueEnemyTimer.loop(this.rnd.integerInRange(100, 5000), this.launchBlueEnemy, this);
+        blueEnemyTimer.loop(this.rnd.integerInRange(1000, 5000), this.launchBlueEnemy, this);
         
         //POWERUP LAME 
         collectables = this.add.group();
@@ -230,21 +231,7 @@ Ass.endless.prototype = {
     	starfield.tilePosition.x -=6;
         player.body.acceleration.y = 0;
 
-        // if(player.health= 4){
-            
-        // }
-        // if(player.health= 3){
-            
-        // }
-        // if(player.health= 2){
-            
-        // }
-        // if(player.health= 1){
-            
-        // }
-        // else{
-            
-        }
+        
 
         if(score == 100){
             blueEnemyTimer.start();
