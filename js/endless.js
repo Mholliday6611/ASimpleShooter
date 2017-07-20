@@ -51,6 +51,7 @@ Ass.endless.prototype = {
         music.play();
 
 
+
 		player = this.add.sprite(this.world.centerX - this.world.centerX + 100, this.world.centerY, 'ship');
 		player.health = 5;
 		player.scale.setTo(1.5,1.5)
@@ -228,6 +229,22 @@ Ass.endless.prototype = {
 	update: function(){
     	starfield.tilePosition.x -=6;
         player.body.acceleration.y = 0;
+
+        // if(player.health= 4){
+            
+        // }
+        // if(player.health= 3){
+            
+        // }
+        // if(player.health= 2){
+            
+        // }
+        // if(player.health= 1){
+            
+        // }
+        // else{
+            
+        // }
 
         if(score == 100){
             blueEnemyTimer.start();

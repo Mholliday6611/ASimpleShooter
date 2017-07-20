@@ -13,6 +13,11 @@ Ass.Preload.prototype = {
 		this.load.setPreloadSprite(this.preloadBar);
 
 		//load in assets for game
+		 this.load.image('1','assets/gif/cute.gif');
+		 this.load.image('2','assets/gif/cute2.gif');
+		 this.load.image('3','assets/gif/clown.gif');
+		 this.load.image('4','assets/gif/darkestestgif.gif');
+		 this.load.image('5','assets/gif/darkestgif.gif');
 		 this.load.image('starfield', 'assets/images/starfield.png');
 		 this.load.image('ship', 'assets/images/player.png');
 		 this.load.image('bullet', 'assets/images/bullet.png');
