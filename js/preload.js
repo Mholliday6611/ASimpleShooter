@@ -26,6 +26,7 @@ Ass.Preload.prototype = {
 		 this.load.image('boss', 'assets/images/boss.png');
 		 this.load.image('deathRay', 'assets/images/death-ray.png');
 		 this.load.image('redshot', 'assets/png/laserRedShot.png');
+		 this.load.audio('lit', 'assets/music/1-26-16_brass_trap.mp3');
 	},
 	create: function(){
 		this.state.start('MainMenu');
