@@ -183,7 +183,7 @@ Ass.endless.prototype = {
         // greenEnemyTimer = this.time.create(false);
         // greenEnemyTimer.loop(this.rnd.integerInRange(100, 4500), this.launchGreenEnemy, this);
         // greenEnemyTimer.start();
-        greenEnemyTimer = this.time.events.add(Phaser.Timer.SECOND * 4, this.launchGreenEnemy, this);
+        this.time.events.add(Phaser.Timer.SECOND * 4, this.launchGreenEnemy, this);
 
         //BlUE ENEMY TIMER
 
