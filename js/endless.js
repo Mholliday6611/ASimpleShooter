@@ -573,7 +573,7 @@ render: function() {
         var spread = 120;
         var frequency = 50;
         var verticalSpacing = 200;
-        var numEnemiesInWaves= 10;
+        var numEnemiesInWaves= 1;
 
         console.log("BLUE START")
 
