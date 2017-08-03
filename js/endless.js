@@ -627,7 +627,7 @@ render: function() {
         var ENEMY_SPEED = this.rnd.integerInRange(-500, -1000);
 
         var enemy = greenEnemies.getFirstExists(false);
-        var numEnemiesInWaves= 2;
+        var numEnemiesInWaves= 3;
 
 
         for (var i =0; i < numEnemiesInWaves; i++) {
