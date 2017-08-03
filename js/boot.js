@@ -6,6 +6,13 @@ Ass.Boot.prototype = {
   preload: function() {
   	//assets we'll use in the loading screen
     this.load.image('logo', 'assets/images/logo.png');
+    this.load.image('signin', 'assets/images/signin.png');
+    this.load.image('story', 'assets/images/story.png');
+    this.load.image('endlessbutton', 'assets/images/endless.png');
+    this.load.image('register', 'assets/images/register.png')
+    this.load.image('field', 'assets/images/typeinfield.png')
+    this.load.image('login', 'assets/images/loginbutton.png')
+    this.load.image('logout', 'assets/images/logout.png')
     this.load.image('preloadbar', 'assets/images/preloader-bar.png');
   },
   create: function() {

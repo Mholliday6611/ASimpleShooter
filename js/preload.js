@@ -19,6 +19,7 @@ Ass.Preload.prototype = {
 		 this.load.image('4','assets/gif/darkestestgif.gif');
 		 this.load.image('5','assets/gif/darkestgif.gif');
 		 this.load.image('starfield', 'assets/images/starfield.png');
+		 this.load.image('clouds', 'assets/png/sky1.png');
 		 this.load.image('ship', 'assets/images/player.png');
 		 this.load.image('bullet', 'assets/images/bullet.png');
 		 this.load.image('enemy-green', 'assets/images/enemy-green.png');
@@ -31,6 +32,15 @@ Ass.Preload.prototype = {
 		 this.load.image('boss', 'assets/images/boss.png');
 		 this.load.image('deathRay', 'assets/images/death-ray.png');
 		 this.load.image('redshot', 'assets/png/laserRedShot.png');
+		 this.load.image('teddy', 'assets/Sprite_1.png');
+		 this.load.image('cupcake', 'assets/Sprite_2.png');
+		 this.load.image('chevron', 'assets/Chevron_1.png');
+		 this.load.image('slime', 'assets/enemies/slime-monster.png');
+		 this.load.spritesheet('frog', 'assets/enemies/frog.png',16,16,3);
+		 this.load.spritesheet('ghost', 'assets/enemies/ghost.png',16,16,3);
+		 this.load.spritesheet('bat', 'assets/enemies/bat.png', 16,16, 3);
+		 this.load.spritesheet('skeleton', 'assets/enemies/skeleton.png',16,16,4);
+		 this.load.spritesheet('androBoss', 'assets/enemies/andromalius-57x88.png', 57, 88, 24);
 		 this.load.audio('lit', 'assets/music/1-26-16_brass_trap.mp3');
 	},
 	create: function(){

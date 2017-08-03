@@ -1,9 +1,10 @@
 var Ass = Ass || {};
+
 var player;
 var greenEnemies;
 var blueEnemies;
 var enemyBullets;
-var starfield;
+var clouds;
 var cursors;
 var bank;
 var shipTrail;
@@ -15,34 +16,29 @@ var bulletTimer = 0;
 var shields;
 var score = 0;
 var scoreText
-var greenEnemyLaunchTimer;
-var greenEnemySpacing =1000;
-var powerUpSpacing = 1000;
-var blueEnemyLaunchTimer;
-var blueEnemyLaunched = false;
-var blueEnemySpacing = 2500;
-var bossLaunchTimer;
-var bossLaunched = false;
-var bossSpacing = 20000;
-var bossBulletTimer = 0;
-var bossYdirection = -1;
 var gameOver;
 var collectables;
 var gun = [];
 var collectable;
 
+var bat;
+var skeleton;
+var frog;
+var ghost;
+var slime;
+var andro;
+
 var ACCLERATION = 2500;
 var DRAG = 10;
 var MAXSPEED = 2500;
 
+Ass.levelone = function(){};
 
-Ass.endless = function(){};
-
-Ass.endless.prototype = {
-
+Ass.levelone.prototype = {
 	create: function() {
+	    
 
-		starfield = this.add.tileSprite(0,0,window.innerWidth, window.innerHeight, 'starfield');
+		clouds = this.add.tileSprite(0,0,window.innerWidth, window.innerHeight, 'clouds');
 
 
         // music = this.add.audio('lit');
@@ -114,55 +110,12 @@ Ass.endless.prototype = {
         bulletsTYPE3.enableBody = true;
         bulletsTYPE3.physicsBodyType = Phaser.Physics.ARCADE;
         bulletsTYPE3.createMultiple(30, 'redshot');
+        bulletsTYPE3.setAll('scale.x', .70)
+        bulletsTYPE3.setAll('scale.y', .70)
         bulletsTYPE3.setAll('anchor.x', 0.5);
         bulletsTYPE3.setAll('anchor.y', 1);
         bulletsTYPE3.setAll('outOfBoundsKill', true);
         bulletsTYPE3.setAll('checkWorldBounds', true);
-
-        greenEnemies = this.add.group();
-        greenEnemies.enableBody = true;
-        greenEnemies.physicsBodyType = Phaser.Physics.ARCADE;
-        greenEnemies.createMultiple(500, 'enemy-green');
-        greenEnemies.setAll('anchor.x', 0.5);
-        greenEnemies.setAll('anchor.y', 0.5);
-        greenEnemies.setAll('scale.x', 0.8);
-        greenEnemies.setAll('scale.y', 0.8);
-        greenEnemies.setAll('angle', -90);
-        greenEnemies.forEach(function(enemy){
-            // addEnemyEmitterTrail(enemy);
-            // enemy.body.setSize(enemy.width * 3/4, enemy.height * 3/4);
-            enemy.damageAmount =1;
-            // enemy.events.onKilled.add(function(){
-            //     enemy.trail.kill();
-            // });
-        });
-
-        blueEnemyBullets = this.add.group();
-        blueEnemyBullets.enableBody = true;
-        blueEnemyBullets.physicsBodyType = Phaser.Physics.ARCADE;
-        blueEnemyBullets.createMultiple(500,'blueEnemyBullet');
-        blueEnemyBullets.callAll('crop', null, {x:90, y: 0, width: 90, height:70});
-        blueEnemyBullets.setAll('alpha', 0.9);
-        blueEnemyBullets.setAll('anchor.x', 0.5);
-        blueEnemyBullets.setAll('anchor.y', 0.5);
-        blueEnemyBullets.setAll('outOfBoundsKill', true);
-        blueEnemyBullets.setAll('checkWorldBounds', true);
-        blueEnemyBullets.forEach(function(enemy){
-            enemy.body.setSize(20,20);
-        });
-
-        blueEnemies = this.add.group();
-        blueEnemies.enableBody = true;
-        blueEnemies.physicsBodyType = Phaser.Physics.ARCADE;
-        blueEnemies.createMultiple(500, 'enemy-blue');
-        blueEnemies.setAll('anchor.x', 0.5);
-        blueEnemies.setAll('anchor.y', 0.5);
-        blueEnemies.setAll('scale.x',0.5);
-        blueEnemies.setAll('scale.y', 0.5);
-        blueEnemies.setAll('angle', -90);
-        blueEnemies.forEach(function(enemy){
-            enemy.damageAmount = 1;
-        });
 
 
         //EXPLOSION
@@ -176,17 +129,118 @@ Ass.endless.prototype = {
             explosion.animations.add('explosion');
         });
 
+        //ENEMIES BEGIN HERE
 
-        //GREEN ENEMY TIMER
-        greenEnemyTimer = this.time.create(false);
-        greenEnemyTimer.loop(this.rnd.integerInRange(100, 5000), this.launchGreenEnemy, this);
-        greenEnemyTimer.start();
+        //BAT 
+        bat = this.add.group();
+        bat.enableBody = true;
+        bat.physicsBodyType = Phaser.Physics.ARCADE;
+        bat.createMultiple(10, 'bat');
+        bat.setAll('anchor.x', 0.5);
+        bat.setAll('anchor.y', 0.5);
+        bat.setAll('scale.x', 1.5);
+        bat.setAll('scale.y', 1.5);
+        bat.setAll('angle', 180);
+        bat.forEach(function(enemy){
+            enemy.body.setSize(enemy.width * 3/4, enemy.height * 3/4);
+            enemy.damageAmount =1;
+        });
 
-        //BlUE ENEMY TIMER
+        //SKELETON
+        skeleton = this.add.group();
+        skeleton.enableBody = true;
+        skeleton.physicsBodyType = Phaser.Physics.ARCADE;
+        skeleton.createMultiple(15, 'skeleton');
+        skeleton.setAll('anchor.x', 0.5);
+        skeleton.setAll('anchor.y', 0.5);
+        skeleton.setAll('scale.x', 1.5);
+        skeleton.setAll('scale.y', 1.5);
+        skeleton.setAll('angle', 180);
+        skeleton.forEach(function(enemy){
+            enemy.body.setSize(enemy.width * 3/4, enemy.height * 3/4);
+            enemy.damageAmount =1;
+        });
 
-        blueEnemyTimer = this.time.create(false);
-        blueEnemyTimer.loop(this.rnd.integerInRange(1000, 5000), this.launchBlueEnemy, this);
-        
+        //GHOST
+        ghost = this.add.group();
+        ghost.enableBody = true;
+        ghost.physicsBodyType = Phaser.Physics.ARCADE;
+        ghost.createMultiple(20, 'ghost');
+        ghost.setAll('anchor.x', 0.5);
+        ghost.setAll('anchor.y', 0.5);
+        ghost.setAll('scale.x', 1.5);
+        ghost.setAll('scale.y', 1.5);
+        ghost.setAll('angle', 90);
+        ghost.forEach(function(enemy){
+            enemy.damageAmount =1;
+        });
+
+        //FROG
+        frog = this.add.group();
+        frog.enableBody = true;
+        frog.physicsBodyType = Phaser.Physics.ARCADE;
+        frog.createMultiple(10, 'frog');
+        frog.setAll('anchor.x', 0.5);
+        frog.setAll('anchor.y', 0.5);
+        frog.setAll('scale.x', 0.5);
+        frog.setAll('scale.y', 0.5);
+        frog.setAll('angle', 90);
+        frog.forEach(function(enemy){
+            enemy.damageAmount =1;
+        });
+
+        //SLIME
+        slime = this.add.sprite(0,0, 'slime');
+        slime.exists = false;
+        slime.alive = false;
+        slime.anchor.setTo(0.5, 0.5);
+        slime.damageAmount = 50;
+        slime.angle = 180;
+        slime.scale.x = 1.5;
+        slime.scale.y = 1.5;
+        this.game.physics.enable(slime, Phaser.Physics.ARCADE);
+        slime.body.maxVelocity.setTo(100, 80);
+        slime.dying = false;
+        slime.finishOff = function(){
+            if(!slime.dying) {
+                slime.dying = true;
+                bossDeath.x = slime.x;
+                bossDeath.y = slime.y;
+                bossDeath.start(false, 1000, 50, 20);
+
+                this.time.events.add(1000, function(){
+                    var explosion = explosions.getFirstExists(false);
+                    var beforeScaleX = explosions.scale.x;
+                    var beforeScaleY =explosions.scale.y;
+                    var beforeAlpha = explosions.alpha;
+                    explosion.reset(slime.body.x + slime.body.halfWidth, slime.body.y + slime.body.halfHeight);
+                    explosion.alpha = 0.4;
+                    explosion.scale.x = 3;
+                    explosion.scale.y = 3;
+                    var animation = explosion.play('explosion', 30 , false, true);
+                    animation.onComplete.addOnce(function(){
+                        explosion.scale.x= beforeScaleX;
+                        explosion.scale.y= beforeScaleY;
+                        explosion.alpha = beforeAlpha;
+                    });
+                    slime.kill();
+                    slime.dying = false;
+                    bossDeath.on = false;
+                    bossLaunchTimer = game.time.events.add(game.rnd.integerInRange(bossSpacing, bossSpacing + 5000),launchBoss);
+                });
+                blueEnemySpacing = 2500;
+                greenEnemySpacing = 1000;
+
+                player.health = Math.min(100, player.health + 40);
+                shields.render();
+            }
+        };
+
+        //ANDRO
+
+        //INITIAL WAVE TIME 
+        wave1Timer = this.time.events.add(Phaser.Timer.SECOND * 6, this.launchWave1, this);
+
         //POWERUP LAME 
         collectables = this.add.group();
         collectables.enableBody = true;
@@ -223,12 +277,19 @@ Ass.endless.prototype = {
         scoreText.text = 'Score: ' + score;
                 };
         scoreText.render();
+
+        bossDeath = this.game.add.emitter(slime.x, slime.y);
+        bossDeath.width = slime.width /2;
+        bossDeath.height =slime.height /2;
+        bossDeath.makeParticles('explosion', [0,1,2,3,4,5,6,7], 20);
+        bossDeath.setAlpha(0.9, 0, 900);
+        bossDeath.setScale(0.3, 1.0, 0.3, 1.0, 1000, Phaser.Easing.Quintic.Out);
         
         
 	},
 
 	update: function(){
-    	starfield.tilePosition.x -=6;
+    	clouds.tilePosition.x -=6;
         player.body.acceleration.y = 0;
 
         
@@ -242,7 +303,7 @@ Ass.endless.prototype = {
                 if(gun[0] == "Red"){
                         if (this.time.now > bulletTimer){
                         var BULLET_SPEED = 600;
-                        var BULLET_SPACING = 500;
+                        var BULLET_SPACING = 1000;
                         for (var i = 0; i < 5; i++) {
                     var bullet = bulletsTYPE3.getFirstExists(false);
                     player.rotation = 1.5708+this.physics.arcade.angleBetween(player, this.input.pointer1)
@@ -250,11 +311,11 @@ Ass.endless.prototype = {
                          var bulletOffset = 20 * Math.sin(this.math.degToRad(player.angle));
                             bullet.reset(player.x + bulletOffset, player.y);
                             var spreadAngle;
-                            if (i === 0) spreadAngle = -50;
-                            if (i === 1) spreadAngle = -25;
+                            if (i === 0) spreadAngle = -5;
+                            if (i === 1) spreadAngle = -2;
                             if (i === 2) spreadAngle = 0;
-                            if (i === 3) spreadAngle = 25;
-                            if (i === 3) spreadAngle = 50;
+                            if (i === 3) spreadAngle = 2;
+                            if (i === 3) spreadAngle = -5;
                             bullet.angle = player.angle + spreadAngle;
                             this.physics.arcade.velocityFromAngle(bullet.angle - 90, BULLET_SPEED, bullet.body.velocity);
                             bullet.body.velocity.x += player.body.velocity.x;
@@ -266,7 +327,7 @@ Ass.endless.prototype = {
                 if(gun[0] == "Spear"){
                         if (this.time.now > bulletTimer){
                         var BULLET_SPEED = 300;
-                        var BULLET_SPACING = 760;
+                        var BULLET_SPACING = 1000;
                     var bullet = bulletsTYPE2.getFirstExists(false);
                     player.rotation = 1.5708+this.physics.arcade.angleBetween(player, this.input.pointer1)
                     if(bullet) {
@@ -283,7 +344,7 @@ Ass.endless.prototype = {
                         if(gun[0] == "Lame"){
                         if (this.time.now > bulletTimer){
                         var BULLET_SPEED = 700;
-                        var BULLET_SPACING = 500;
+                        var BULLET_SPACING = 1000;
                         for (var i = 0; i < 3; i++) {
                     var bullet = bullets.getFirstExists(false);
                     player.rotation = 1.5708+this.physics.arcade.angleBetween(player, this.input.pointer1)
@@ -306,7 +367,7 @@ Ass.endless.prototype = {
         }else {
                         if (this.time.now > bulletTimer){
                         var BULLET_SPEED = 400;
-                        var BULLET_SPACING = 400;
+                        var BULLET_SPACING = 900;
                         var bullet = bullets.getFirstExists(false);
                         player.rotation = 1.5708+this.physics.arcade.angleBetween(player, this.input.pointer1)
                         if (bullet)
@@ -333,7 +394,7 @@ Ass.endless.prototype = {
                 if(gun[0] == "Red"){
                         if (this.time.now > bulletTimer){
                         var BULLET_SPEED = 600;
-                        var BULLET_SPACING = 500;
+                        var BULLET_SPACING = 1000;
                         for (var i = 0; i < 5; i++) {
                     var bullet = bulletsTYPE2.getFirstExists(false);
                     player.rotation = 1.5708+this.physics.arcade.angleBetween(player, this.input.pointer2)
@@ -341,11 +402,11 @@ Ass.endless.prototype = {
                          var bulletOffset = 20 * Math.sin(this.math.degToRad(player.angle));
                             bullet.reset(player.x + bulletOffset, player.y);
                             var spreadAngle;
-                            if (i === 0) spreadAngle = -50;
-                            if (i === 1) spreadAngle = -25;
+                            if (i === 0) spreadAngle = -5;
+                            if (i === 1) spreadAngle = -2;
                             if (i === 2) spreadAngle = 0;
-                            if (i === 3) spreadAngle = 25;
-                            if (i === 3) spreadAngle = 50;
+                            if (i === 3) spreadAngle = 2;
+                            if (i === 3) spreadAngle = -5;
                             bullet.angle = player.angle + spreadAngle;
                             this.physics.arcade.velocityFromAngle(bullet.angle - 90, BULLET_SPEED, bullet.body.velocity);
                             bullet.body.velocity.x += player.body.velocity.x;
@@ -358,9 +419,9 @@ Ass.endless.prototype = {
                 if(gun[0] == "Spear"){
                             if (this.time.now > bulletTimer){
                             var BULLET_SPEED = 300;
-                            var BULLET_SPACING = 760;
+                            var BULLET_SPACING = 1000;
                             var bullet = bulletsTYPE2.getFirstExists(false);
-                        player.rotation = 1.5708+this.physics.arcade.angleBetween(player, this.input.pointer2)
+                        player.rotation = 1.5708+this.physics.arcade.angleBetween(player, this.input.pointer2d)
                         if(bullet) {
                              var bulletOffset = 20 * Math.sin(this.math.degToRad(player.angle));
                                 bullet.reset(player.x + bulletOffset, player.y);
@@ -376,7 +437,7 @@ Ass.endless.prototype = {
                         if(gun[0] == "Lame"){
                              if (this.time.now > bulletTimer){
                         var BULLET_SPEED = 700;
-                        var BULLET_SPACING = 550;
+                        var BULLET_SPACING = 1000;
                         for (var i = 0; i < 3; i++) {
                     var bullet = bullets.getFirstExists(false);
                     player.rotation = 1.5708+this.physics.arcade.angleBetween(player, this.input.pointer2)
@@ -399,7 +460,7 @@ Ass.endless.prototype = {
         }else {
                         if (this.time.now > bulletTimer){
                         var BULLET_SPEED = 400;
-                        var BULLET_SPACING = 550;
+                        var BULLET_SPACING = 900;
                         var bullet = bullets.getFirstExists(false);
                         player.rotation = 1.5708+this.physics.arcade.angleBetween(player, this.input.pointer2)
                         if (bullet)
@@ -428,16 +489,16 @@ Ass.endless.prototype = {
     this.game.physics.arcade.overlap(player, collectablesTYPE2, this.collectTYPE2, null, this);
     this.game.physics.arcade.overlap(player, collectablesTYPE3, this.collectTYPE3, null, this);
 
-    this.game.physics.arcade.overlap(player, greenEnemies, this.shipCollide, null, this);
-    this.game.physics.arcade.overlap(greenEnemies, bullets, this.hitEnemy, null, this);
-    this.game.physics.arcade.overlap(greenEnemies, bulletsTYPE2, this.hitEnemy, null, this);
-    this.game.physics.arcade.overlap(greenEnemies, bulletsTYPE3, this.hitEnemy, null, this);
+    // this.game.physics.arcade.overlap(player, greenEnemies, this.shipCollide, null, this);
+    // this.game.physics.arcade.overlap(greenEnemies, bullets, this.hitEnemy, null, this);
+    // this.game.physics.arcade.overlap(greenEnemies, bulletsTYPE2, this.hitEnemy, null, this);
+    // this.game.physics.arcade.overlap(greenEnemies, bulletsTYPE3, this.hitEnemy, null, this);
 
-    this.game.physics.arcade.overlap(blueEnemyBullets, player, this.enemyHitsPlayer, null, this);
-    this.game.physics.arcade.overlap(player, blueEnemies, this.shipCollide, null, this);
-    this.game.physics.arcade.overlap(blueEnemies, bullets, this.hitEnemy, null, this);
-    this.game.physics.arcade.overlap(blueEnemies, bulletsTYPE2, this.hitEnemy, null, this);
-    this.game.physics.arcade.overlap(blueEnemies, bulletsTYPE3, this.hitEnemy, null, this);
+    // this.game.physics.arcade.overlap(blueEnemyBullets, player, this.enemyHitsPlayer, null, this);
+    // this.game.physics.arcade.overlap(player, blueEnemies, this.shipCollide, null, this);
+    // this.game.physics.arcade.overlap(blueEnemies, bullets, this.hitEnemy, null, this);
+    // this.game.physics.arcade.overlap(blueEnemies, bulletsTYPE2, this.hitEnemy, null, this);
+    // this.game.physics.arcade.overlap(blueEnemies, bulletsTYPE3, this.hitEnemy, null, this);
 
     if (! player.alive && gameOver.visible === false) {
         gameOver.visible = true;
@@ -447,24 +508,14 @@ Ass.endless.prototype = {
         fadeIngameOver.onComplete.add(setResetHandlers);
         fadeIngameOver.start();
         function setResetHandlers(){
-            tapRestart = Ass.game.input.onTap.addOnce(_restart,this);
-            function _restart(){
-            var newHighScore = JSON.parse(localStorage.getItem('user'));
-            console.log(score)
-            console.log(typeof newHighScore)
-            if(score > newHighScore.highScore){
-                console.log("NEW HIGHSCORE!")
-                axios.put('http://localhost:8080/highscore/:id', {highScore: score}, {params :{id: newHighScore._id}})
-                .then(function(response){
-                }), function(response){
-                    console.log("fail")
-                }
-            }
-            else{
-
-            }
-             Ass.game.state.start('MainMenu');
-            }            
+        // The "click to restart" handler
+        // if(this.game.input.activePointer.justPressed()) {
+            // function _restart(){
+                // tapRestart.detach();
+                // spaceRestart.detach();
+                this.restart();
+            // }
+            // }
         }
 
     }
@@ -489,6 +540,41 @@ render: function() {
     // }
     // this.game.debug.body(player);
 },
+launchWave1: function() {
+        var startingY = this.world.centerY;
+        var speed = -180;
+        var spread = 60;
+        var frequency = 70;
+        var verticalSpacing = 70;
+        var numEnemiesInWaves= 10;
+
+        for (var i =0; i < numEnemiesInWaves; i++) {
+            var enemy = bat.getFirstExists(false);
+            if (enemy) {
+                enemy.startingY = startingY;
+                enemy.reset(this.world.centerY, -verticalSpacing * i);
+                enemy.body.velocity.x = speed;
+
+                enemy.update = function() {
+                    this.body.y = this.startingY + Math.sin((this.x) / frequency) * spread;
+
+                    bank = Math.cos((this.y + 60)/ frequency)
+                    this.scale.x = 0.5 - Math.abs(bank / 8);
+                    this.angle = 180 - bank *2;
+
+
+
+                    if(this.x > this.width - 200) {
+                        this.kill();
+                    }
+                };
+            }
+        }
+
+        //Launch NEXT WAVE FUNCTION
+    },
+
+
     launchPowerUp: function() {
         console.log("start")
         collectables.createMultiple(5, 'power');
@@ -559,91 +645,6 @@ render: function() {
 }
 
  },
-  launchBlueEnemy: function() {
-        var startingY = this.rnd.integerInRange(this.world.centerY-this.world.centerY +100, this.world.centerY + this.world.centerY -150);
-        var horizantalSpeed = -180;
-        var spread = 60;
-        var frequency = 50;
-        var verticalSpacing = 70;
-        var numEnemiesInWaves= 5;
-
-        console.log("BLUE START")
-
-        for (var i =0; i < numEnemiesInWaves; i++) {
-            var enemy = blueEnemies.getFirstExists(false);
-            if (enemy) {
-                enemy.startingY = startingY;
-                enemy.reset(this.world.centerX + this.world.centerX, this.rnd.integerInRange(this.world.centerY-this.world.centerY +100, this.world.centerY + this.world.centerY -150));
-                enemy.body.velocity.x = horizantalSpeed;
-
-                var bulletSpeed = 400;
-                var firingDelay =2000;
-                enemy.bullets = 1;
-                enemy.lastShot = 0;
-
-                enemy.update = function() {
-                    this.body.y = this.startingY + Math.sin((this.x) / frequency) * spread;
-
-                    // bank = Math.cos((this.y + 60)/ frequency)
-                    // this.scale.x = 0.5 - Math.abs(bank / 8);
-                    // this.angle = 180 - bank *2;
-
-                    enemyBullet = blueEnemyBullets.getFirstExists(false);
-                    if (enemyBullet &&
-                        this.alive &&
-                        this.bullets &&
-                        this.y > this.width / 8 &&
-                        this.game.time.now > firingDelay + this.lastShot) {
-                        this.lastShot = this.game.time.now;
-                        this.bullets--;
-                        enemyBullet.reset(this.x, this.y +this.height / 2);
-                        enemyBullet.damageAmount = this.damageAmount;
-                        var angle = this.game.physics.arcade.moveToObject(enemyBullet, player, bulletSpeed);
-                        enemyBullet.angle = this.game.math.radToDeg(angle);
-                    }
-
-
-
-                    if(this.y > this.height + 200) {
-                        this.kill();
-                    }
-                };
-            }
-        }
-
-    },
-
- launchGreenEnemy: function() {
-
-       
-        console.log("hey")
-
-        var ENEMY_SPEED = this.rnd.integerInRange(-300, -700);
-
-        var enemy = greenEnemies.getFirstExists(false);
-        console.log(enemy)
-        if (enemy) {
-            enemy.reset(this.world.centerX + this.world.centerX, this.rnd.integerInRange(this.world.centerY-this.world.centerY +100, this.world.centerY + this.world.centerY -150));
-            // enemy.body.velocity.y = this.rnd.integerInRange(-300, 300);
-            enemy.body.velocity.x = ENEMY_SPEED;
-            enemy.body.velocity.y = this.rnd.integerInRange(-300, 300);
-            enemy.body.drag.y = 150;
-
-            // enemy.trail.start(false,800, 1);
-
-
-            enemy.update = function(){
-                enemy.angle = this.game.math.radToDeg(Math.atan2(enemy.body.velocity.x,enemy.body.velocity.y));
-
-                // enemy.trail.x = enemy.x;
-                // enemy.trail.y = enemy.y -10;
-
-                if (enemy.x < this.world.centerX - this.world.centerX) {
-                    enemy.kill()
-                }
-            }
-        }
-    },
     shipCollide: function(player, enemy) {
     enemy.kill();
 
@@ -690,7 +691,7 @@ enemyHitsPlayer: function( player, bullet) {
     }
     bullet.kill();
 
-    score += enemy.damageAmount * 10;
+    score += enemy.damageAmount * 100;
     scoreText.render();
 
     greenEnemySpacing *= 0.9;
@@ -753,13 +754,35 @@ enemyHitsPlayer: function( player, bullet) {
         //remove sprite
         collectable.destroy();
       },
-      shutdown: function(){
-        score = 0;
-        music.destroy();
+
+       restart: function() {
         greenEnemies.callAll('kill');
-        gun.pop()
+        game.time.events.remove(greenEnemyLaunchTimer);
+        game.time.events.add(1000, launchGreenEnemy);
+        // blueEnemies.callAll('kill');
+        // blueEnemyBullets.callAll('kill');
+        // game.time.events.remove(blueEnemyLaunchTimer);
 
-      }
+        // blueEnemies.callAll('kill');
+        // game.time.events.remove(1000, blueEnemyLaunchTimer);
+        // boss.kill();
+        // booster.kill();
+        // game.time.events.remove(bossLaunchTimer);
 
-       
+        //revive player
+        gun.shift()
+        player.revive();
+        player.health = 5;
+        // shields.render();
+        score = 0
+        scoreText.render();
+        gameOver.visible = false;
+
+        greenEnemySpacing = 1000;
+        // blueEnemyLaunched = false;
+        // bossLaunched = false;
+
+
+
+}
 }
