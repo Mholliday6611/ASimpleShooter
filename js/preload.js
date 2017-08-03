@@ -34,6 +34,7 @@ Ass.Preload.prototype = {
 		 this.load.image('redshot', 'assets/png/laserRedShot.png');
 		 this.load.image('teddy', 'assets/Sprite_1.png');
 		 this.load.image('cupcake', 'assets/Sprite_2.png');
+		 this.load.image('gboss', 'assets/Sprite_3.png');
 		 this.load.image('chevron', 'assets/Chevron_1.png');
 		 this.load.image('slime', 'assets/enemies/slime-monster.png');
 		 this.load.spritesheet('frog', 'assets/enemies/frog.png',16,16,3);

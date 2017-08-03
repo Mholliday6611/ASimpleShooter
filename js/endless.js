@@ -1,4 +1,4 @@
-var Ass = Ass || {};
+ var Ass = Ass || {};
 var player;
 var greenEnemies;
 var blueEnemies;
@@ -453,7 +453,7 @@ Ass.endless.prototype = {
             console.log(typeof newHighScore)
             if(score > newHighScore.highScore){
                 console.log("NEW HIGHSCORE!")
-                axios.put('http://localhost:8080/highscore/:id', {highScore: score}, {params :{id: newHighScore._id}})
+                axios.put('https://dreamchaserssite.herokuapp.com/highscore/:id', {highScore: score}, {params :{id: newHighScore._id}})
                 .then(function(response){
                 }), function(response){
                     console.log("fail")
@@ -758,7 +758,6 @@ enemyHitsPlayer: function( player, bullet) {
         music.destroy();
         greenEnemies.callAll('kill');
         gun.pop()
-
       }
 
        

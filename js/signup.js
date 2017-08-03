@@ -76,7 +76,7 @@ Ass.signup.prototype = {
 
 		function loginFunc(login, pointer) {
 			console.log("LOGIN START")
-			axios.post('http://localhost:8080/user-login', {
+			axios.post('https://dreamchaserssite.herokuapp.com/user-login', {
 				username: username.value,
 				password: password.value
 			})

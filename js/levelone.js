@@ -20,6 +20,7 @@ var gameOver;
 var collectables;
 var gun = [];
 var collectable;
+var waveTime = 7000
 
 var bat;
 var skeleton;
@@ -135,12 +136,12 @@ Ass.levelone.prototype = {
         bat = this.add.group();
         bat.enableBody = true;
         bat.physicsBodyType = Phaser.Physics.ARCADE;
-        bat.createMultiple(10, 'bat');
+        bat.createMultiple(100, 'bat');
         bat.setAll('anchor.x', 0.5);
         bat.setAll('anchor.y', 0.5);
-        bat.setAll('scale.x', 1.5);
-        bat.setAll('scale.y', 1.5);
-        bat.setAll('angle', 180);
+        bat.setAll('scale.x', 4);
+        bat.setAll('scale.y', 4);
+        // bat.setAll('angle', 360);
         bat.forEach(function(enemy){
             enemy.body.setSize(enemy.width * 3/4, enemy.height * 3/4);
             enemy.damageAmount =1;
@@ -168,9 +169,8 @@ Ass.levelone.prototype = {
         ghost.createMultiple(20, 'ghost');
         ghost.setAll('anchor.x', 0.5);
         ghost.setAll('anchor.y', 0.5);
-        ghost.setAll('scale.x', 1.5);
-        ghost.setAll('scale.y', 1.5);
-        ghost.setAll('angle', 90);
+        ghost.setAll('scale.x', 3);
+        ghost.setAll('scale.y', 3);
         ghost.forEach(function(enemy){
             enemy.damageAmount =1;
         });
@@ -189,23 +189,22 @@ Ass.levelone.prototype = {
             enemy.damageAmount =1;
         });
 
-        //SLIME
-        slime = this.add.sprite(0,0, 'slime');
-        slime.exists = false;
-        slime.alive = false;
-        slime.anchor.setTo(0.5, 0.5);
-        slime.damageAmount = 50;
-        slime.angle = 180;
-        slime.scale.x = 1.5;
-        slime.scale.y = 1.5;
-        this.game.physics.enable(slime, Phaser.Physics.ARCADE);
-        slime.body.maxVelocity.setTo(100, 80);
-        slime.dying = false;
-        slime.finishOff = function(){
-            if(!slime.dying) {
-                slime.dying = true;
-                bossDeath.x = slime.x;
-                bossDeath.y = slime.y;
+        //GUESSAN'S BOSS
+        gboss = this.add.sprite(0,0, 'gboss');
+        gboss.exists = false;
+        gboss.alive = false;
+        gboss.anchor.setTo(0.5, 0.5);
+        gboss.damageAmount = 1;
+        gboss.scale.x = .3;
+        gboss.scale.y = .3;
+        this.game.physics.enable(gboss, Phaser.Physics.ARCADE);
+        gboss.body.maxVelocity.setTo(100, 80);
+        gboss.dying = false;
+        gboss.finishOff = function(){
+            if(!gboss.dying) {
+                gboss.dying = true;
+                bossDeath.x = gboss.x;
+                bossDeath.y = gboss.y;
                 bossDeath.start(false, 1000, 50, 20);
 
                 this.time.events.add(1000, function(){
@@ -213,7 +212,7 @@ Ass.levelone.prototype = {
                     var beforeScaleX = explosions.scale.x;
                     var beforeScaleY =explosions.scale.y;
                     var beforeAlpha = explosions.alpha;
-                    explosion.reset(slime.body.x + slime.body.halfWidth, slime.body.y + slime.body.halfHeight);
+                    explosion.reset(gboss.body.x + gboss.body.halfWidth, gboss.body.y + gboss.body.halfHeight);
                     explosion.alpha = 0.4;
                     explosion.scale.x = 3;
                     explosion.scale.y = 3;
@@ -223,8 +222,8 @@ Ass.levelone.prototype = {
                         explosion.scale.y= beforeScaleY;
                         explosion.alpha = beforeAlpha;
                     });
-                    slime.kill();
-                    slime.dying = false;
+                    gboss.kill();
+                    gboss.dying = false;
                     bossDeath.on = false;
                     bossLaunchTimer = game.time.events.add(game.rnd.integerInRange(bossSpacing, bossSpacing + 5000),launchBoss);
                 });
@@ -239,7 +238,7 @@ Ass.levelone.prototype = {
         //ANDRO
 
         //INITIAL WAVE TIME 
-        wave1Timer = this.time.events.add(Phaser.Timer.SECOND * 6, this.launchWave1, this);
+        wave1Timer = this.time.events.add(Phaser.Timer.SECOND * 4, this.launchWave1, this);
 
         //POWERUP LAME 
         collectables = this.add.group();
@@ -258,16 +257,17 @@ Ass.levelone.prototype = {
         
 
         powerUpTimerSpear = this.time.create(false);
-        powerUpTimerSpear.loop(this.rnd.integerInRange(10000, 60000), this.launchPowerUpSpear, this);
+        powerUpTimerSpear.loop(this.rnd.integerInRange(6000, 9000), this.launchPowerUpSpear, this);
         powerUpTimerSpear.start();
 
         //POWERUP RED
         collectablesTYPE3 = this.add.group();
         collectablesTYPE3.enableBody = true;
         collectablesTYPE3.physicsBodyType = Phaser.Physics.ARCADE;
+        
 
         powerUpTimerRed = this.time.create(false);
-        powerUpTimerRed.loop(this.rnd.integerInRange(10000, 60000), this.launchPowerUpRed, this);
+        powerUpTimerRed.loop(this.rnd.integerInRange(6000, 10000), this.launchPowerUpRed, this);
         powerUpTimerRed.start();
 
 
@@ -278,9 +278,9 @@ Ass.levelone.prototype = {
                 };
         scoreText.render();
 
-        bossDeath = this.game.add.emitter(slime.x, slime.y);
-        bossDeath.width = slime.width /2;
-        bossDeath.height =slime.height /2;
+        bossDeath = this.game.add.emitter(gboss.x, gboss.y);
+        bossDeath.width = gboss.width /2;
+        bossDeath.height =gboss.height /2;
         bossDeath.makeParticles('explosion', [0,1,2,3,4,5,6,7], 20);
         bossDeath.setAlpha(0.9, 0, 900);
         bossDeath.setScale(0.3, 1.0, 0.3, 1.0, 1000, Phaser.Easing.Quintic.Out);
@@ -294,9 +294,9 @@ Ass.levelone.prototype = {
 
         
 
-        if(score == 100){
-            blueEnemyTimer.start();
-        }
+        // if(score == 100){
+        //     blueEnemyTimer.start();
+        // }
 
         if(this.input.pointer1.isDown){
             if(this.input.pointer1.x>this.world.centerX){
@@ -483,16 +483,28 @@ Ass.levelone.prototype = {
             }
     }
 
+    if(score == 1000){
+        waveTime = 5000
+    }
+    if(score == 500){
+        this.launchWaveBoss()
+    }
+
     shipTrail.y = player.y;
     //overlapping between player and collectables
     this.game.physics.arcade.overlap(player, collectables, this.collect, null, this);
     this.game.physics.arcade.overlap(player, collectablesTYPE2, this.collectTYPE2, null, this);
     this.game.physics.arcade.overlap(player, collectablesTYPE3, this.collectTYPE3, null, this);
 
-    // this.game.physics.arcade.overlap(player, greenEnemies, this.shipCollide, null, this);
-    // this.game.physics.arcade.overlap(greenEnemies, bullets, this.hitEnemy, null, this);
-    // this.game.physics.arcade.overlap(greenEnemies, bulletsTYPE2, this.hitEnemy, null, this);
-    // this.game.physics.arcade.overlap(greenEnemies, bulletsTYPE3, this.hitEnemy, null, this);
+    this.game.physics.arcade.overlap(player, bat, this.shipCollide, null, this);
+    this.game.physics.arcade.overlap(bat, bullets, this.hitEnemy, null, this);
+    this.game.physics.arcade.overlap(bat, bulletsTYPE2, this.hitEnemy, null, this);
+    this.game.physics.arcade.overlap(bat, bulletsTYPE3, this.hitEnemy, null, this);
+
+    this.game.physics.arcade.overlap(player, ghost, this.shipCollide, null, this);
+    this.game.physics.arcade.overlap(ghost, bullets, this.hitEnemy, null, this);
+    this.game.physics.arcade.overlap(ghost, bulletsTYPE2, this.hitEnemy, null, this);
+    this.game.physics.arcade.overlap(ghost, bulletsTYPE3, this.hitEnemy, null, this);
 
     // this.game.physics.arcade.overlap(blueEnemyBullets, player, this.enemyHitsPlayer, null, this);
     // this.game.physics.arcade.overlap(player, blueEnemies, this.shipCollide, null, this);
@@ -508,17 +520,13 @@ Ass.levelone.prototype = {
         fadeIngameOver.onComplete.add(setResetHandlers);
         fadeIngameOver.start();
         function setResetHandlers(){
-        // The "click to restart" handler
-        // if(this.game.input.activePointer.justPressed()) {
-            // function _restart(){
-                // tapRestart.detach();
-                // spaceRestart.detach();
-                this.restart();
-            // }
-            // }
+        tapRestart = Ass.game.input.onTap.addOnce(_restart,this);
+            function _restart(){
+             Ass.game.state.start('MainMenu');
+            }            
         }
-
     }
+
 
 },
 render: function() {
@@ -541,37 +549,73 @@ render: function() {
     // this.game.debug.body(player);
 },
 launchWave1: function() {
-        var startingY = this.world.centerY;
-        var speed = -180;
-        var spread = 60;
-        var frequency = 70;
-        var verticalSpacing = 70;
+    console.log("Wave One start")
+        var ENEMY_SPEED = -250
         var numEnemiesInWaves= 10;
 
-        for (var i =0; i < numEnemiesInWaves; i++) {
+
+        for (var i =0; i < 5; i++) {
             var enemy = bat.getFirstExists(false);
-            if (enemy) {
-                enemy.startingY = startingY;
-                enemy.reset(this.world.centerY, -verticalSpacing * i);
-                enemy.body.velocity.x = speed;
-
-                enemy.update = function() {
-                    this.body.y = this.startingY + Math.sin((this.x) / frequency) * spread;
-
-                    bank = Math.cos((this.y + 60)/ frequency)
-                    this.scale.x = 0.5 - Math.abs(bank / 8);
-                    this.angle = 180 - bank *2;
+           
+        if (enemy) {
+            enemy.reset(this.world.centerX + this.world.centerX, this.rnd.integerInRange(this.world.centerY-this.world.centerY +100, this.world.centerY + this.world.centerY -150));
+            enemy.animations.add('fly', [0, 1, 2], 2, true)
+            enemy.play('fly')
+            enemy.body.velocity.y = this.rnd.integerInRange(-30, 30);
+            enemy.body.velocity.x = ENEMY_SPEED;
+            enemy.body.drag.y = 150;
 
 
 
-                    if(this.x > this.width - 200) {
-                        this.kill();
-                    }
-                };
+            enemy.update = function(){
+
+
+                if (enemy.x < this.world.centerX - this.world.centerX) {
+                    enemy.kill()
+                }
+
             }
         }
+    }
+    this.launchWave2()
+    },
+    launchWave2: function() {
+    console.log("Wave Two start")
+        var ENEMY_SPEED = -50
+        var numEnemiesInWaves= 10;
 
-        //Launch NEXT WAVE FUNCTION
+
+        for (var i =0; i < 5; i++) {
+            var enemy = ghost.getFirstExists(false);
+           
+        if (enemy) {
+            enemy.reset(this.world.centerX + this.world.centerX, this.rnd.integerInRange(this.world.centerY-this.world.centerY +100, this.world.centerY + this.world.centerY -150));
+            enemy.animations.add('fly', [0, 1, 2], 2, true)
+            enemy.play('fly')
+            enemy.body.velocity.y = this.rnd.integerInRange(-30, 30);
+            enemy.body.velocity.x = ENEMY_SPEED;
+            enemy.body.drag.y = 150;
+
+
+
+            enemy.update = function(){
+
+
+                if (enemy.x < this.world.centerX - this.world.centerX) {
+                    enemy.kill()
+                }
+
+            }
+        }
+    }
+    this.time.events.add(waveTime, this.launchWave1, this)
+    },
+    launchWaveBoss: function() {
+        console.log("start boss")
+        gboss.reset(this.world.centerX + this.world.centerX, this.world.centerY);
+        // booster.start(false, 1000, 10);
+        gboss.health = 500;
+        // bossBulletTimer = game.time.now + 5000;
     },
 
 
@@ -600,13 +644,13 @@ launchWave1: function() {
  },
  launchPowerUpSpear: function() {
         console.log("start")
-        collectablesTYPE2.createMultiple(5, 'power');
+        collectablesTYPE2.createMultiple(5, 'cupcake');
+        collectablesTYPE2.setAll('scale.x', .04);
+        collectablesTYPE2.setAll('scale.y', .04);
+        
         var powerz = collectablesTYPE2.getFirstExists(false);
-        powerz.tint = 0Xbc1836 
         if (powerz) {
             powerz.reset(this.world.centerX + this.world.centerX, this.rnd.integerInRange(this.world.centerY-this.world.centerY, this.world.centerY +this.world.centerY));
-            powerz.animations.add('fly', [0, 1, 2, 3], 5, true);
-            powerz.animations.play('fly');
             powerz.body.velocity.x = -400;
             (console.log(powerz))
         
@@ -623,13 +667,12 @@ launchWave1: function() {
 },
     launchPowerUpRed: function() {
         console.log("start")
-        collectablesTYPE3.createMultiple(5, 'power');
+        collectablesTYPE3.createMultiple(5, 'teddy');
+        collectablesTYPE3.setAll('scale.x', .04);
+        collectablesTYPE3.setAll('scale.y', .04);
         var powerz = collectablesTYPE3.getFirstExists(false);
-        powerz.tint = 0Xa2d114
         if (powerz) {
             powerz.reset(this.world.centerX + this.world.centerX, this.rnd.integerInRange(this.world.centerY-this.world.centerY, this.world.centerY +this.world.centerY));
-            powerz.animations.add('fly', [0, 1, 2, 3], 5, true);
-            powerz.animations.play('fly');
             powerz.body.velocity.x = -350;
             (console.log(powerz))
         
