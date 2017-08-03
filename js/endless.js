@@ -31,6 +31,8 @@ var collectables;
 var gun = [];
 var collectable;
 
+var wavetime = 5000
+
 var ACCLERATION = 2500;
 var DRAG = 10;
 var MAXSPEED = 2500;
@@ -178,14 +180,15 @@ Ass.endless.prototype = {
 
 
         //GREEN ENEMY TIMER
-        greenEnemyTimer = this.time.create(false);
-        greenEnemyTimer.loop(this.rnd.integerInRange(100, 4500), this.launchGreenEnemy, this);
-        greenEnemyTimer.start();
+        // greenEnemyTimer = this.time.create(false);
+        // greenEnemyTimer.loop(this.rnd.integerInRange(100, 4500), this.launchGreenEnemy, this);
+        // greenEnemyTimer.start();
+        greenEnemyTimer = this.time.events.add(Phaser.Timer.SECOND * 4, this.launchGreenEnemy, this);
 
         //BlUE ENEMY TIMER
 
-        blueEnemyTimer = this.time.create(false);
-        blueEnemyTimer.loop(this.rnd.integerInRange(100, 5000), this.launchBlueEnemy, this);
+        // blueEnemyTimer = this.time.create(false);
+        // blueEnemyTimer.loop(this.rnd.integerInRange(100, 5000), this.launchBlueEnemy, this);
         
         
         //POWERUP LAME 
@@ -231,7 +234,13 @@ Ass.endless.prototype = {
 	update: function(){
     	starfield.tilePosition.x -=6;
         player.body.acceleration.y = 0;
-        if(score==10){blueEnemyTimer.start();}
+
+        if(score== 3000){
+            wavetime = 3000
+        }
+        if(score==1000)
+            {launchBlueEnemy()
+            }
         
 
 
@@ -607,6 +616,7 @@ render: function() {
                 };
             }
         }
+        this.time.events.add(wavetime + 5000, this.launchBlueEnemy, this)
 
     },
     launchGreenEnemy: function() {
@@ -640,6 +650,7 @@ render: function() {
                 }
             }
         }
+        this.time.events.add(wavetime, this.launchGreenEnemy, this)
     }
     },
 
