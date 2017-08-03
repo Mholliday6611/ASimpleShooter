@@ -19,7 +19,7 @@ var greenEnemyLaunchTimer;
 var greenEnemySpacing =1000;
 var powerUpSpacing = 1000;
 var blueEnemyLaunchTimer;
-var blueEnemyLaunched = false;
+//var blueEnemyLaunched = false;
 var blueEnemySpacing = 2500;
 var bossLaunchTimer;
 var bossLaunched = false;
@@ -179,13 +179,14 @@ Ass.endless.prototype = {
 
         //GREEN ENEMY TIMER
         greenEnemyTimer = this.time.create(false);
-        greenEnemyTimer.loop(this.rnd.integerInRange(100, 5000), this.launchGreenEnemy, this);
+        greenEnemyTimer.loop(this.rnd.integerInRange(100, 4500), this.launchGreenEnemy, this);
         greenEnemyTimer.start();
 
         //BlUE ENEMY TIMER
 
         blueEnemyTimer = this.time.create(false);
-        blueEnemyTimer.loop(this.rnd.integerInRange(1000, 5000), this.launchBlueEnemy, this);
+        blueEnemyTimer.loop(this.rnd.integerInRange(100, 5000), this.launchBlueEnemy, this);
+        
         
         //POWERUP LAME 
         collectables = this.add.group();
@@ -230,12 +231,10 @@ Ass.endless.prototype = {
 	update: function(){
     	starfield.tilePosition.x -=6;
         player.body.acceleration.y = 0;
-
+        if(score==10){blueEnemyTimer.start();}
         
 
-        if(score == 100){
-            blueEnemyTimer.start();
-        }
+
 
         if(this.input.pointer1.isDown){
             if(this.input.pointer1.x>this.world.centerX){
@@ -562,10 +561,10 @@ render: function() {
   launchBlueEnemy: function() {
         var startingY = this.rnd.integerInRange(this.world.centerY-this.world.centerY +100, this.world.centerY + this.world.centerY -150);
         var horizantalSpeed = -180;
-        var spread = 60;
+        var spread = 120;
         var frequency = 50;
-        var verticalSpacing = 70;
-        var numEnemiesInWaves= 5;
+        var verticalSpacing = 200;
+        var numEnemiesInWaves= 10;
 
         console.log("BLUE START")
 
@@ -604,24 +603,26 @@ render: function() {
 
 
 
-                    if(this.y > this.height + 200) {
-                        this.kill();
-                    }
+
                 };
             }
         }
 
     },
-
- launchGreenEnemy: function() {
+    launchGreenEnemy: function() {
 
        
         console.log("hey")
 
-        var ENEMY_SPEED = this.rnd.integerInRange(-300, -700);
+        var ENEMY_SPEED = this.rnd.integerInRange(-500, -1000);
 
         var enemy = greenEnemies.getFirstExists(false);
-        console.log(enemy)
+        var numEnemiesInWaves= 2;
+
+
+        for (var i =0; i < numEnemiesInWaves; i++) {
+            var enemy = greenEnemies.getFirstExists(false);
+           
         if (enemy) {
             enemy.reset(this.world.centerX + this.world.centerX, this.rnd.integerInRange(this.world.centerY-this.world.centerY +100, this.world.centerY + this.world.centerY -150));
             // enemy.body.velocity.y = this.rnd.integerInRange(-300, 300);
@@ -633,17 +634,16 @@ render: function() {
 
 
             enemy.update = function(){
-                enemy.angle = this.game.math.radToDeg(Math.atan2(enemy.body.velocity.x,enemy.body.velocity.y));
-
-                // enemy.trail.x = enemy.x;
-                // enemy.trail.y = enemy.y -10;
 
                 if (enemy.x < this.world.centerX - this.world.centerX) {
                     enemy.kill()
                 }
             }
         }
+    }
     },
+
+
     shipCollide: function(player, enemy) {
     enemy.kill();
 
