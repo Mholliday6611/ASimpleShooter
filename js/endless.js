@@ -650,8 +650,8 @@ render: function() {
                 }
             }
         }
-        this.time.events.add(wavetime, this.launchGreenEnemy, this)
     }
+    this.time.events.add(wavetime, this.launchGreenEnemy, this)
     },
 
 
