@@ -91,7 +91,7 @@ Ass.endless.prototype = {
 		bullets = this.add.group();
 	    bullets.enableBody = true;
 	    bullets.physicsBodyType = Phaser.Physics.ARCADE;
-	    bullets.createMultiple(30, 'bullet');
+	    bullets.createMultiple(500, 'bullet');
 	    bullets.setAll('anchor.x', 0.5);
 	    bullets.setAll('anchor.y', 1);
 	    bullets.setAll('outOfBoundsKill', true);
@@ -100,7 +100,7 @@ Ass.endless.prototype = {
         bulletsTYPE2 = this.add.group();
         bulletsTYPE2.enableBody = true;
         bulletsTYPE2.physicsBodyType = Phaser.Physics.ARCADE;
-        bulletsTYPE2.createMultiple(30, 'bullet');
+        bulletsTYPE2.createMultiple(500, 'bullet');
         bulletsTYPE2.setAll('tint', 0Xbc1836);
         bulletsTYPE2.setAll('scale.x', 3)
         bulletsTYPE2.setAll('scale.y', 3)
@@ -115,7 +115,7 @@ Ass.endless.prototype = {
         bulletsTYPE3 = this.add.group();
         bulletsTYPE3.enableBody = true;
         bulletsTYPE3.physicsBodyType = Phaser.Physics.ARCADE;
-        bulletsTYPE3.createMultiple(30, 'redshot');
+        bulletsTYPE3.createMultiple(500, 'redshot');
         bulletsTYPE3.setAll('anchor.x', 0.5);
         bulletsTYPE3.setAll('anchor.y', 1);
         bulletsTYPE3.setAll('outOfBoundsKill', true);
