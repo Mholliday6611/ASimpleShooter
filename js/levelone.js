@@ -21,6 +21,7 @@ var collectables;
 var gun = [];
 var collectable;
 var waveTime = 7000
+var bossLaunched = false
 
 var bat;
 var skeleton;
@@ -483,12 +484,7 @@ Ass.levelone.prototype = {
             }
     }
 
-    if(score == 1000){
-        waveTime = 5000
-    }
-    if(score == 500){
-        this.launchWaveBoss()
-    }
+   
 
     shipTrail.y = player.y;
     //overlapping between player and collectables
@@ -505,6 +501,10 @@ Ass.levelone.prototype = {
     this.game.physics.arcade.overlap(ghost, bullets, this.hitEnemy, null, this);
     this.game.physics.arcade.overlap(ghost, bulletsTYPE2, this.hitEnemy, null, this);
     this.game.physics.arcade.overlap(ghost, bulletsTYPE3, this.hitEnemy, null, this);
+
+    this.game.physics.arcade.overlap(gboss, bullets,this.hitEnemy, this.bossHitTest);
+    // game.physics.arcade.overlap(player, boss.rayLeft, enemyHitsPlayer, null, this);
+    // game.physics.arcade.overlap(player, boss.rayRight, enemyHitsPlayer, null, this);
 
     // this.game.physics.arcade.overlap(blueEnemyBullets, player, this.enemyHitsPlayer, null, this);
     // this.game.physics.arcade.overlap(player, blueEnemies, this.shipCollide, null, this);
@@ -612,9 +612,10 @@ launchWave1: function() {
     },
     launchWaveBoss: function() {
         console.log("start boss")
-        gboss.reset(this.world.centerX + this.world.centerX, this.world.centerY);
+        waveTime = 10000000
+        gboss.reset(this.world.centerX + this.world.centerX - 300, this.world.centerY);
         // booster.start(false, 1000, 10);
-        gboss.health = 500;
+        gboss.health = 30;
         // bossBulletTimer = game.time.now + 5000;
     },
 
@@ -739,6 +740,11 @@ enemyHitsPlayer: function( player, bullet) {
 
     greenEnemySpacing *= 0.9;
 
+    if(!bossLaunched &&score > 600){
+        bossLaunched = true;
+        this.launchWaveBoss()
+    }
+
     // if(!blueEnemyLaunched && score > 1000) {
     //     blueEnemyLaunched = true;
     //     launchBlueEnemy();
@@ -797,34 +803,22 @@ enemyHitsPlayer: function( player, bullet) {
         //remove sprite
         collectable.destroy();
       },
-
-       restart: function() {
+    bossHitTest: function(gboss, bullet){
+    if ((bullet.x>gboss.x + gboss.width / 5 &&
+        bullet.y < gboss.y) ||
+        (bullet.x < gboss.x - gboss.width/ 5 &&
+            bullet.y > gboss.y)){
+        return false;
+    } else {
+        return true;
+    }
+},
+       shutdown: function() {
+        score = 0;
+        music.destroy();
         greenEnemies.callAll('kill');
-        game.time.events.remove(greenEnemyLaunchTimer);
-        game.time.events.add(1000, launchGreenEnemy);
-        // blueEnemies.callAll('kill');
-        // blueEnemyBullets.callAll('kill');
-        // game.time.events.remove(blueEnemyLaunchTimer);
-
-        // blueEnemies.callAll('kill');
-        // game.time.events.remove(1000, blueEnemyLaunchTimer);
-        // boss.kill();
-        // booster.kill();
-        // game.time.events.remove(bossLaunchTimer);
-
-        //revive player
-        gun.shift()
-        player.revive();
-        player.health = 5;
-        // shields.render();
-        score = 0
-        scoreText.render();
-        gameOver.visible = false;
-
-        greenEnemySpacing = 1000;
-        // blueEnemyLaunched = false;
-        // bossLaunched = false;
-
+        gun.pop()
+        bossLaunched = false
 
 
 }

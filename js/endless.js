@@ -19,7 +19,7 @@ var greenEnemyLaunchTimer;
 var greenEnemySpacing =1000;
 var powerUpSpacing = 1000;
 var blueEnemyLaunchTimer;
-//var blueEnemyLaunched = false;
+var blueEnemyLaunched = false;
 var blueEnemySpacing = 2500;
 var bossLaunchTimer;
 var bossLaunched = false;
@@ -234,15 +234,6 @@ Ass.endless.prototype = {
 	update: function(){
     	starfield.tilePosition.x -=6;
         player.body.acceleration.y = 0;
-
-        if(score== 3000){
-            wavetime = 3000
-        }
-        if(score==500)
-            {this.launchBlueEnemy()
-            }
-        
-
 
 
         if(this.input.pointer1.isDown){
@@ -569,19 +560,19 @@ render: function() {
  },
   launchBlueEnemy: function() {
         var startingY = this.rnd.integerInRange(this.world.centerY-this.world.centerY +100, this.world.centerY + this.world.centerY -150);
-        var horizantalSpeed = -180;
+        var horizantalSpeed = -100;
         var spread = 120;
         var frequency = 50;
         var verticalSpacing = 200;
-        var numEnemiesInWaves= 1;
+        var numEnemiesInWaves= 3;
 
         console.log("BLUE START")
 
         for (var i =0; i < numEnemiesInWaves; i++) {
             var enemy = blueEnemies.getFirstExists(false);
             if (enemy) {
-                enemy.startingY = startingY;
-                enemy.reset(this.world.centerX + this.world.centerX, this.rnd.integerInRange(this.world.centerY-this.world.centerY +100, this.world.centerY + this.world.centerY -150));
+                enemy.startingY = startingY * i;
+                enemy.reset((this.world.centerX + this.world.centerX), -500 *i);
                 enemy.body.velocity.x = horizantalSpeed;
 
                 var bulletSpeed = 400;
@@ -706,6 +697,16 @@ enemyHitsPlayer: function( player, bullet) {
 
     greenEnemySpacing *= 0.9;
 
+
+    if(!blueEnemyLaunched && score > 1000) {
+        blueEnemyLaunched = true;
+        this.launchBlueEnemy();
+        wavetime = 3000
+    }
+
+        
+
+
     // if(!blueEnemyLaunched && score > 1000) {
     //     blueEnemyLaunched = true;
     //     launchBlueEnemy();
@@ -769,6 +770,7 @@ enemyHitsPlayer: function( player, bullet) {
         music.destroy();
         greenEnemies.callAll('kill');
         gun.pop()
+        blueEnemyLaunched = false
       }
 
        
