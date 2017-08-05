@@ -22,7 +22,7 @@ Ass.signup.prototype = {
     	usernameField.anchor.set(0.5)
 
     	username = this.add.inputField(this.game.width/2 -275, this.game.height * .25 - 17, {
-                font: '30px Arial',
+                font: '16px Arial',
                 fill: '#212121',
                 fillAlpha: 0,
                 fontWeight: 'bold',
@@ -47,7 +47,7 @@ Ass.signup.prototype = {
     	passwordField.anchor.set(0.5)
 
     	password = this.add.inputField(this.game.width/2 -275, this.game.height * .5 - 17, {
-                font: '30px Arial',
+                font: '16px Arial',
                 fill: '#212121',
                 fillAlpha: 0,
                 fontWeight: 'bold',
