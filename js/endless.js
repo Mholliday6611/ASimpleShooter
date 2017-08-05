@@ -239,7 +239,7 @@ Ass.endless.prototype = {
             wavetime = 3000
         }
         if(score==500)
-            {launchBlueEnemy()
+            {this.launchBlueEnemy()
             }
         
 
@@ -273,7 +273,7 @@ Ass.endless.prototype = {
         }    
                 if(gun[0] == "Spear"){
                         if (this.time.now > bulletTimer){
-                        var BULLET_SPEED = 300;
+                        var BULLET_SPEED = 400;
                         var BULLET_SPACING = 1000;
                     var bullet = bulletsTYPE2.getFirstExists(false);
                     player.rotation = 1.5708+this.physics.arcade.angleBetween(player, this.input.pointer1)
@@ -313,8 +313,8 @@ Ass.endless.prototype = {
             }
         }else {
                         if (this.time.now > bulletTimer){
-                        var BULLET_SPEED = 400;
-                        var BULLET_SPACING = 900;
+                        var BULLET_SPEED = 500;
+                        var BULLET_SPACING = 800;
                         var bullet = bullets.getFirstExists(false);
                         player.rotation = 1.5708+this.physics.arcade.angleBetween(player, this.input.pointer1)
                         if (bullet)
@@ -343,7 +343,7 @@ Ass.endless.prototype = {
                         var BULLET_SPEED = 600;
                         var BULLET_SPACING = 1000;
                         for (var i = 0; i < 5; i++) {
-                    var bullet = bulletsTYPE2.getFirstExists(false);
+                    var bullet = bulletsTYPE3.getFirstExists(false);
                     player.rotation = 1.5708+this.physics.arcade.angleBetween(player, this.input.pointer2)
                     if(bullet) {
                          var bulletOffset = 20 * Math.sin(this.math.degToRad(player.angle));
@@ -365,7 +365,7 @@ Ass.endless.prototype = {
         }    
                 if(gun[0] == "Spear"){
                             if (this.time.now > bulletTimer){
-                            var BULLET_SPEED = 300;
+                            var BULLET_SPEED = 400;
                             var BULLET_SPACING = 1000;
                             var bullet = bulletsTYPE2.getFirstExists(false);
                         player.rotation = 1.5708+this.physics.arcade.angleBetween(player, this.input.pointer2d)
@@ -406,8 +406,8 @@ Ass.endless.prototype = {
             }
         }else {
                         if (this.time.now > bulletTimer){
-                        var BULLET_SPEED = 400;
-                        var BULLET_SPACING = 900;
+                        var BULLET_SPEED = 500;
+                        var BULLET_SPACING = 800;
                         var bullet = bullets.getFirstExists(false);
                         player.rotation = 1.5708+this.physics.arcade.angleBetween(player, this.input.pointer2)
                         if (bullet)
@@ -701,7 +701,7 @@ enemyHitsPlayer: function( player, bullet) {
     }
     bullet.kill();
 
-    score += enemy.damageAmount * 10;
+    score += enemy.damageAmount * 100;
     scoreText.render();
 
     greenEnemySpacing *= 0.9;

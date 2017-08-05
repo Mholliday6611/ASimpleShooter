@@ -166,7 +166,7 @@ Ass.levelone.prototype = {
         ghost = this.add.group();
         ghost.enableBody = true;
         ghost.physicsBodyType = Phaser.Physics.ARCADE;
-        ghost.createMultiple(20, 'ghost');
+        ghost.createMultiple(100, 'ghost');
         ghost.setAll('anchor.x', 0.5);
         ghost.setAll('anchor.y', 0.5);
         ghost.setAll('scale.x', 3);
@@ -179,7 +179,7 @@ Ass.levelone.prototype = {
         frog = this.add.group();
         frog.enableBody = true;
         frog.physicsBodyType = Phaser.Physics.ARCADE;
-        frog.createMultiple(10, 'frog');
+        frog.createMultiple(100, 'frog');
         frog.setAll('anchor.x', 0.5);
         frog.setAll('anchor.y', 0.5);
         frog.setAll('scale.x', 0.5);
@@ -326,7 +326,7 @@ Ass.levelone.prototype = {
         }    
                 if(gun[0] == "Spear"){
                         if (this.time.now > bulletTimer){
-                        var BULLET_SPEED = 300;
+                        var BULLET_SPEED = 400;
                         var BULLET_SPACING = 1000;
                     var bullet = bulletsTYPE2.getFirstExists(false);
                     player.rotation = 1.5708+this.physics.arcade.angleBetween(player, this.input.pointer1)
@@ -366,8 +366,8 @@ Ass.levelone.prototype = {
             }
         }else {
                         if (this.time.now > bulletTimer){
-                        var BULLET_SPEED = 400;
-                        var BULLET_SPACING = 900;
+                        var BULLET_SPEED = 500;
+                        var BULLET_SPACING = 800;
                         var bullet = bullets.getFirstExists(false);
                         player.rotation = 1.5708+this.physics.arcade.angleBetween(player, this.input.pointer1)
                         if (bullet)
@@ -396,7 +396,7 @@ Ass.levelone.prototype = {
                         var BULLET_SPEED = 600;
                         var BULLET_SPACING = 1000;
                         for (var i = 0; i < 5; i++) {
-                    var bullet = bulletsTYPE2.getFirstExists(false);
+                    var bullet = bulletsTYPE3.getFirstExists(false);
                     player.rotation = 1.5708+this.physics.arcade.angleBetween(player, this.input.pointer2)
                     if(bullet) {
                          var bulletOffset = 20 * Math.sin(this.math.degToRad(player.angle));
@@ -418,7 +418,7 @@ Ass.levelone.prototype = {
         }    
                 if(gun[0] == "Spear"){
                             if (this.time.now > bulletTimer){
-                            var BULLET_SPEED = 300;
+                            var BULLET_SPEED = 400;
                             var BULLET_SPACING = 1000;
                             var bullet = bulletsTYPE2.getFirstExists(false);
                         player.rotation = 1.5708+this.physics.arcade.angleBetween(player, this.input.pointer2d)
@@ -459,8 +459,8 @@ Ass.levelone.prototype = {
             }
         }else {
                         if (this.time.now > bulletTimer){
-                        var BULLET_SPEED = 400;
-                        var BULLET_SPACING = 900;
+                        var BULLET_SPEED = 500;
+                        var BULLET_SPACING = 800;
                         var bullet = bullets.getFirstExists(false);
                         player.rotation = 1.5708+this.physics.arcade.angleBetween(player, this.input.pointer2)
                         if (bullet)
