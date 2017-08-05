@@ -100,7 +100,7 @@ Ass.signup.prototype = {
 		register.events.onInputDown.add(signup, this)
 
 		function signup(register, pointer) {
-			window.open("http://www.google.com", "_blank")
+			window.open("https://dreamchaserssite.herokuapp.com/#!/", "_blank")
 		}		
 	},
 	render: function() {
