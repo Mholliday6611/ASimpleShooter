@@ -359,7 +359,7 @@ Ass.endless.prototype = {
                             var BULLET_SPEED = 400;
                             var BULLET_SPACING = 1000;
                             var bullet = bulletsTYPE2.getFirstExists(false);
-                        player.rotation = 1.5708+this.physics.arcade.angleBetween(player, this.input.pointer2d)
+                        player.rotation = 1.5708+this.physics.arcade.angleBetween(player, this.input.pointer2)
                         if(bullet) {
                              var bulletOffset = 20 * Math.sin(this.math.degToRad(player.angle));
                                 bullet.reset(player.x + bulletOffset, player.y);
